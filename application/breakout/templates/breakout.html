@@ -72,7 +72,11 @@ m1.addEventListener('show.bs.modal', function(event) {
     var contract_type = event.relatedTarget.getAttribute('data-bs-type');
     var gain = event.relatedTarget.getAttribute('data-bs-gain');
     var mb = document.getElementById('modal-body');
+<<<<<<< HEAD
     mb.innerHTML = "<div class='spinner-border text-primary'></div>";
+=======
+    mb.innerHTML = "<button type='button' class='btn-close' data-bs-dismiss='modal'></button>";
+>>>>>>> 34fb129045927e8ba565f3feccdacd3b0fd9d588
     var mt = document.getElementById('modal-title');
     mt.innerText = 'Contract Pricing - ' + ticker + ' (' + contract_type + ')';
     var output = get_pricing(ticker, contract_type, gain);

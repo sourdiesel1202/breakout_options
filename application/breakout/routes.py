@@ -22,11 +22,15 @@ bp_breakout = Blueprint(
 #def {page}():
 @bp_breakout.route(f'/strategy/{page}')
 def breakout():
+<<<<<<< HEAD
     picks = toolbox.find_todays_breakout(
         db.df.copy(),
         strategies.get_breakout,
         days=1,
     )
+=======
+    picks = toolbox.find_breakout(strategies.get_breakout, db.df)
+>>>>>>> 34fb129045927e8ba565f3feccdacd3b0fd9d588
     return render_template(
         f'{page}.html',
         db=db,
