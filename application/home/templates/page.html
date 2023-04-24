@@ -1,0 +1,54 @@
+{% extends 'template.j2' %}
+{% block head %}
+<style>
+#main {
+	background-color: #FFFFFF;
+	border-radius: 10px;
+}
+</style>
+{% endblock %}
+{% block body %}
+<div id='main' class='container bg-light'>
+	<h1 class='text-center'>Stock Market Algorithms</h1>
+	<p class='text-center'>Updated as of : <b>{{ db.last_pull_pretty }}</b><br><button id='refresh' class='btn btn-primary' onclick='javascript:get_last_pull()'>Refresh</button></p>
+    <ul class='list-group'>
+        <li class='list-group-item text-center'><a href='strategy/breakout' target='_blank'>Breakout</a></li>
+        <li class='list-group-item text-center'><a href='strategy/breakout_mod' target='_blank'>Breakout (Longer Term)</a></li>
+        <!--
+        <li class='list-group-item text-center'><a href='strategy/adx_cross' target='_blank'>ADX Cross</a></li>
+        -->
+        <li class='list-group-item text-center'><a href='strategy/golden_cross' target='_blank'>Golden Cross</a></li>
+    </ul>
+    <br>
+</div>
+
+<script>
+
+function test() {
+    alert('test');
+}
+
+function get_last_pull() {  
+    let options = {
+        method: 'GET',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    };
+    var btn = document.getElementById('refresh');
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Loading...';
+    btn.disabled = true;
+    
+    fetch("/api/update", options)
+    .then((response) => response.json())
+    .then(data => {
+        var jd = JSON.stringify(data);
+        console.log(jd);
+        window.location.reload();
+    }).catch((error) => {
+        console.log(error);
+    })
+    return;
+}
+
+</script>
+
+{% endblock %}

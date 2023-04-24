@@ -1,0 +1,2 @@
+podman build -t breakout_options .
+podman run -d -v %CD%:/usr/src/app -p 0.0.0.0:5000:5000 --name=app breakout_options

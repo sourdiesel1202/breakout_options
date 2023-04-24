@@ -1,0 +1,159 @@
+{% extends 'template.j2' %}
+{% block head %}
+<style>
+#main {
+	background-color: #FFFFFF;
+	border-radius: 10px;
+}
+</style>
+{% endblock %}
+{% block body %}
+<div id='main' class='container bg-light'>
+	<h1 class='text-center'>Breakout</h1>
+	<p class='text-center'>Updated as of : <b>{{ db.last_pull_pretty }}</b><br><button id='refresh' class='btn btn-primary' onclick='javascript:get_last_pull()'>Refresh</button></p>
+    <table class='table table-bordered table-striped'>
+        <!-- Put Something in this TR -->
+        <tr>
+            <th>Symbol</th>
+            <th>Type</th>
+            <th>Strike</th>
+            <th>DMI</th>
+            <th>StochRSI</th>
+            <th>ADX</th>
+            <th>Pick</th>
+            <th>Probability</th>
+            <th>Median Gain</th>
+            <th>Pricing</th>
+        </tr>
+        {% for pick in picks %}
+        {% if pick.pick %}
+        <tr class='table-success'>
+        {% else %}
+        <tr class='table-danger'>
+        {% endif %}
+            <td>{{ pick.symbol }}</td>
+            <td>{{ pick.type | upper }}</td>
+            <td>{{ pick.strike }}</td>
+            <td>{{ pick.dmi }}</td>
+            <td>{{ pick.rsi }}</td>
+            <td>{{ pick.adx }}</td>
+            <td>{{ pick.pick }}</td>
+            <td>{{ pick.bt[pick.type + '_ratio'] }} ({{ pick.bt[pick.type + '_fraction'] }}%)</td>
+            <td>${{ pick.bt[pick.type + '_diff'] }} ({{ pick.bt[pick.type + '_profit'] }}%)</td>
+            <td><button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#myModal' data-bs-ticker='{{ pick.symbol }}' data-bs-gain='{{ pick.bt[pick.type + "_diff"] }}' data-bs-type='{{ pick.type | lower }}'>Get Price</button></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+</div>
+
+<div class='modal' id='myModal'>
+    <div class='modal-dialog modal-xl'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <h4 id='modal-title' class='modal-title'>Contract Pricing</h4>
+                <button type='button' class='btn-close' data-bs-dismiss='modal'></button>
+            </div>
+            <div id='modal-body' class='modal-body'>
+                <div class='spinner-border text-primary'></div>
+            </div>
+            <div class='modal-footer'>
+                <button type='button' class='btn  btn-danger' data-bs-dismiss='modal'>Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+const m1 = document.getElementById('myModal');
+m1.addEventListener('show.bs.modal', function(event) {
+    var ticker = event.relatedTarget.getAttribute('data-bs-ticker');
+    var contract_type = event.relatedTarget.getAttribute('data-bs-type');
+    var gain = event.relatedTarget.getAttribute('data-bs-gain');
+    var mb = document.getElementById('modal-body');
+    mb.innerHTML = "<div class='spinner-border text-primary'></div>";
+    var mt = document.getElementById('modal-title');
+    mt.innerText = 'Contract Pricing - ' + ticker + ' (' + contract_type + ')';
+    var output = get_pricing(ticker, contract_type, gain);
+    output.then(data => {
+        var mb = document.getElementById('modal-body');
+        /* mb.innerHTML = data; */
+        var table = document.createElement('table');
+        table.classList.add('table');
+        table.classList.add('table-bordered');
+        table.classList.add('table-striped');
+        var tbody = document.createElement('tbody');
+        table.appendChild(tbody);
+        /* rows */
+        var trh = document.createElement('tr');
+        tbody.appendChild(trh);
+        var headers = ['Expiration', 'Strike', '% Gain', 'Buy Price', 'Sell Price', 'Message'];
+        for (var i=0; i < headers.length; i++) {
+            var th = document.createElement('th');
+            th.appendChild(document.createTextNode(headers[i]));
+            trh.appendChild(th);
+        }
+        
+        for (var i=0; i < data.length; i++) {
+            var tr = document.createElement('tr');
+            tbody.appendChild(tr);
+            /* columns */
+            for (var j=0; j < data[i].length; j++) {
+                var td = document.createElement('td');
+                td.appendChild(document.createTextNode(data[i][j]));
+                tr.appendChild(td);
+            }
+        }
+        mb.innerHTML = '';
+        mb.appendChild(table);
+    });
+});
+
+function test() {
+    alert('test');
+}
+
+function get_pricing(symbol, contract_type, gain) {
+    let params_obj = {
+        'symbol': symbol,
+        'contract_type': contract_type,
+        'gain': gain
+    }
+    let options = {
+        method: 'GET',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    };
+    let params = new URLSearchParams(params_obj);
+    return fetch("/api/price/get?" + params, options)
+    .then((response) => response.json())
+    .then((data) => {
+        return data;
+    });
+}
+
+
+function get_last_pull() {  
+    let options = {
+        method: 'GET',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    };
+    var btn = document.getElementById('refresh');
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Loading...';
+    btn.disabled = true;
+    
+    fetch("/api/update", options)
+    .then((response) => response.json())
+    .then(data => {
+        var jd = JSON.stringify(data);
+        console.log(jd);
+        window.location.reload();
+    }).catch((error) => {
+        console.log(error);
+    })
+    return;
+}
+
+</script>
+
+{% endblock %}
