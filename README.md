@@ -54,45 +54,12 @@ Entry and exit prices are only calculated for overnight holds, although the tren
 
 ## Getting Started
 
-### When using as a Docker application :
+### When using as a Docker (or Podman) application :
 ```
-podman build -t breakout_options .
-podman run -d -v %CD%:/usr/src/app -p 0.0.0.0:5000:5000 --name=app breakout_options
+docker build -t breakout_options .
+docker run -d -v %CD%:/usr/src/app -p 0.0.0.0:5000:5000 --name=app breakout_options
 ```
 Then point your browser to http://localhost:5000!
-
-Otherwise :
-
-### Create virtual environment
-```
-python3 -m venv venv
-```
-
-### Enter environment
-#### On Windows:
-```
-venv\scripts\activate
-```
-#### On Linux:
-```
-source venv\bin\activate
-```
-
-### Install additional libraries
-```
-python3 -m pip install -r requirements.txt
-```
-
-## Run Script!
-```
-python3 legacy/main.py <algorithm>
-```
-
-Or run individually :
-
-```
-python3 breakout.py
-```
 
 On the first time running the script, a full stock market history is downloaded, compressed, and stored locally (<400 MB).
 
