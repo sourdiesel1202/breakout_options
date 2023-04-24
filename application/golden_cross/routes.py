@@ -22,15 +22,11 @@ bp_golden_cross = Blueprint(
 #def {page}():
 @bp_golden_cross.route(f'/strategy/{page}')
 def golden_cross():
-<<<<<<< HEAD
     picks = toolbox.find_todays_breakout(
         db.df.copy(),
         strategies.get_golden_cross,
         days=1,
     )
-=======
-    picks = toolbox.find_breakout(strategies.get_golden_cross, db.df)
->>>>>>> 34fb129045927e8ba565f3feccdacd3b0fd9d588
     return render_template(
         f'{page}.html',
         db=db,
