@@ -33,6 +33,7 @@ soupsieve==2.4.1
 tables==3.8.0
 tzdata==2023.3
 urllib3==1.26.15
+waitress==2.1.2
 webencodings==0.5.1
 Werkzeug==2.2.3
 yfinance==0.2.18
