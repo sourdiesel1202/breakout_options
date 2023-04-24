@@ -12,8 +12,6 @@ If the Stochastic RSI is trending in the same direction as the script algorithm,
 
 If the ADX/DMI is trending in the same direction as the script algorithm, then more investors are buying/selling according to the trend.
 
-CSV and TXT files are stored locally to retrieve results from last run.
-
 ## Algorithms
 
 ### Breakout
@@ -31,14 +29,6 @@ Similar to the above Breakout trend, a modified Keltner channel is used.
 If a symbol closes from a Breakout trend the next day, the chance of a reversal is likely to be very low.
 
 This modified Breakout trend will indicate that a stock has a high probability of continuing to climb for the next few days.
-
-### ADX Cross
-
-When a trend is confirmed in a direction, investors will more than likely make trades according to the trend.
-
-This algorithm catches the trend a day or two before, in an attempt to ride the trend of a stock for a longer period of time.
-
-Entry and exit prices are only calculated for overnight holds, although the trend may continue for longer.
 
 ### Golden/Death Cross
 
@@ -61,8 +51,10 @@ docker run -d -v %CD%:/usr/src/app -p 0.0.0.0:5000:5000 --name=app breakout_opti
 ```
 Then point your browser to http://localhost:5000!
 
+## Key Notes!
+
 On the first time running the script, a full stock market history is downloaded, compressed, and stored locally (<400 MB).
 
 This first run may take about and hour to run, but is crucial for producing accurate backtesting data.
 
-Any other time than the first run, only incremental data is downloaded (4 days prior to date).
+Any other time than the first run, only incremental data is downloaded when the Refresh button is clicked.
