@@ -12,6 +12,10 @@ If the Stochastic RSI is trending in the same direction as the script algorithm,
 
 If the ADX/DMI is trending in the same direction as the script algorithm, then more investors are buying/selling according to the trend.
 
+![Screenshot of Home Page](./images/screenshot_0.PNG)
+![Screenshot of Strategy Page](./images/screenshot_1.PNG)
+![Screenshot of Pricing Modal](./images/screenshot_2.PNG)
+
 ## Algorithms
 
 ### Breakout
