@@ -72,7 +72,7 @@ def find_todays_breakout(db, fn, days=1):
         adx_uptrend = (adx.tail(1)['ADX_14'] > adx.shift(1).tail(1)['ADX_14']).bool()
         dmi_uptrend = (adx.tail(1)['DMP_14'] > adx.tail(1)['DMN_14']).bool()
         rsi_uptrend = (stochrsi.tail(1)['STOCHRSId_14_14_3_3'] > stochrsi.shift(1)['STOCHRSId_14_14_3_3'].tail(1)).bool()
-        pick = all([dmi_uptrend, adx_uptrend, rsi_uptrend]) or all([not dmi_uptrend, not adx_uptrend, rsi_uptrend])
+        pick = all([dmi_uptrend, adx_uptrend, rsi_uptrend]) or all([not dmi_uptrend, adx_uptrend, not rsi_uptrend])
         bt = run_backtest(data_copy, results[symbol].copy(), days=days)
         picks.append({
                 'symbol': symbol,
