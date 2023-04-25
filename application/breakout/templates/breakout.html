@@ -88,7 +88,7 @@ m1.addEventListener('show.bs.modal', function(event) {
         /* rows */
         var trh = document.createElement('tr');
         tbody.appendChild(trh);
-        var headers = ['Expiration', 'Strike', '% Gain', 'Buy Price', 'Sell Price', 'Message'];
+        var headers = ['Expiration', 'Strike', '% Gain', 'Bid/Ask', 'Buy Price', 'Sell Price', 'Message'];
         for (var i=0; i < headers.length; i++) {
             var th = document.createElement('th');
             th.appendChild(document.createTextNode(headers[i]));
@@ -99,11 +99,27 @@ m1.addEventListener('show.bs.modal', function(event) {
             var tr = document.createElement('tr');
             tbody.appendChild(tr);
             /* columns */
-            for (var j=0; j < data[i].length; j++) {
-                var td = document.createElement('td');
-                td.appendChild(document.createTextNode(data[i][j]));
-                tr.appendChild(td);
-            }
+            var td = document.createElement('td');
+            td.appendChild(document.createTextNode(data[i]['date']));
+            tr.appendChild(td);
+            var td = document.createElement('td');
+            td.appendChild(document.createTextNode(data[i]['strike']));
+            tr.appendChild(td);
+            var td = document.createElement('td');
+            td.appendChild(document.createTextNode(data[i]['gain_percent']));
+            tr.appendChild(td);
+            var td = document.createElement('td');
+            td.appendChild(document.createTextNode(data[i]['bid'] + '/' + data[i]['ask']));
+            tr.appendChild(td);
+            var td = document.createElement('td');
+            td.appendChild(document.createTextNode(data[i]['buy_price']));
+            tr.appendChild(td);
+            var td = document.createElement('td');
+            td.appendChild(document.createTextNode(data[i]['sell_price']));
+            tr.appendChild(td);
+            var td = document.createElement('td');
+            td.appendChild(document.createTextNode(data[i]['msg']));
+            tr.appendChild(td);
         }
         mb.innerHTML = '';
         mb.appendChild(table);

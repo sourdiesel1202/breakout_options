@@ -126,6 +126,17 @@ def get_pricing(symbol, pick_type, gain):
     s = float(df['Close'].iloc[-1])
     output = []
     for exp in e:
+        msg = {
+            'date': exp,
+            'strike': 'n/a',
+            'gain_percent': 'n/a',
+            'buy_price': 'n/a',
+            'sell_price': 'n/a',
+            'bid': 'n/a',
+            'ask': 'n/a',
+            'bid-ask': 'n/a',
+            'msg': '',
+        }
         c = t.option_chain(exp)
         #anticipated_gain = 0.77
         est = float(s) + anticipated_gain
@@ -136,10 +147,8 @@ def get_pricing(symbol, pick_type, gain):
         # Skip empty option chains
         if len(strikes) == 0:
             #print(f'{exp} exp.\tEMPTY CHAIN')
-            msg = 'EMPTY CHAIN'
-            output.append([
-                exp, 'n/a', 'n/a', 'n/a', 'n/a', msg
-            ])
+            msg['msg'] = 'EMPTY CHAIN'
+            output.append(msg)
             continue
         near_idx = min(range(len(strikes)),key = lambda i: abs(strikes[i]-float(s)))
         nearest = strikes[near_idx]
@@ -149,14 +158,16 @@ def get_pricing(symbol, pick_type, gain):
             nearest_strike = c.puts[c.puts.strike == nearest]
         # Skip wide bid-ask spread, by $0.10
         bid = nearest_strike.bid.iloc[-1]
+        msg['bid'] = f'{bid:.2f}'
         ask = nearest_strike.ask.iloc[-1]
-        if float(bid - ask) > 0.10:
+        msg['ask'] = f'{ask:.2f}'
+        bid_ask_spread = abs(float(bid) - float(ask))
+        msg['bid-ask'] = f'{bid_ask_spread:.2f}'
+        if bid_ask_spread > 0.20:
             #print(f'{exp} exp.\tWide Bid/Ask')
-            msg = 'Wide Bid/Ask'
-            output.append([
-                exp, 'n/a', 'n/a', 'n/a', 'n/a', msg
-            ])
-            continue
+            msg['msg'] = 'Bid/Ask > 20'
+            #output.append(msg)
+            #continue
         price = float(nearest_strike.lastPrice.iloc[-1])
         # assumed delta of ATM
         delta = 0.5
@@ -164,11 +175,16 @@ def get_pricing(symbol, pick_type, gain):
         anticipated_total = price + contract_gain
         percent_gain = float((abs(anticipated_total - price) / price) * 100)
         # Warn of 0DTE, not exclude
-        is_0dte = '!!! WARNING: 0DTE !!!' if exp == today else ''
-        #print(f'{exp} exp.\t${nearest},\t{percent_gain:.02f}% gain\tBuy at ${price:.02f}, sell ~${anticipated_total:.02f}\t{is_0dte}')
-        output.append([
-            exp, f'{nearest:.2f}', f'{percent_gain:.02f}%', f'{price:.2f}', f'{anticipated_total:.2f}', is_0dte
-        ])
+        if exp == today:
+            if msg['msg']:
+                msg['msg'] += '\t!!! WARNING: 0DTE !!!'
+            else:
+                msg['msg'] = '!!! WARNING: 0DTE !!!'
+        msg['strike'] = f'{nearest:.2f}'
+        msg['gain_percent'] = f'{percent_gain:.02f}%'
+        msg['buy_price'] = f'{price:.2f}'
+        msg['sell_price'] = f'{anticipated_total:.2f}'
+        output.append(msg)
     return output
 
 if __name__ == '__main__':
