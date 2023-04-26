@@ -1,4 +1,5 @@
 import pandas as pd
+import pandas_ta as ta
 
 inventory = [
     'get_golden_cross',
@@ -50,8 +51,13 @@ def get_breakout(df):
     df = pd.concat([xo,xu,calls_hit,puts_hit], axis=1, keys=['xo','xu','calls_hit','puts_hit']).swaplevel(axis=1)
     return df
 
-def get_adx_cross(df, symbol):
-    adx = df.ta.adx()
+def get_adx_cross(df):
+    symbols = df.columns.get_level_values(0).unique().sort_values(ascending=True)
+    adx = pd.DataFrame()
+    for symbol in symbols:
+        adx_single = df[symbol].ta.adx()
+        adx = pd.concat([adx, adx_single], axis=1)
+    #adx = df.ta.adx()
     
     lt_adx_20 = adx['ADX_14'] < 20
     gt_0day_1day = adx['ADX_14'] > adx['ADX_14'].shift(1)

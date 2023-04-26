@@ -1,6 +1,7 @@
 import os
 import time
 import pandas as pd
+import pandas_ta as ta
 from datetime import datetime
 from application.app import database
 from application.app import strategies
@@ -12,11 +13,22 @@ db.load_data()
 te = time.time()
 print(te-ts, 'seconds to load db')
 
-ts = time.time()
-results = strategies.get_breakout_mod(db.df.copy())
-symbols = results.columns.get_level_values(0).unique().sort_values(ascending=True)
-te = time.time()
-print(te-ts, 'seconds to run strategy')
+df = db.df.stack(level=0).rename_axis(['Date', 'Ticker']).reset_index(level=1)
+#adx = df.ta.adx()
+close = db.df.loc[:, db.df.columns.get_level_values(1).isin(['Close'])].droplevel(1, axis='columns')
+high = db.df.loc[:, db.df.columns.get_level_values(1).isin(['High'])].droplevel(1, axis='columns')
+low = db.df.loc[:, db.df.columns.get_level_values(1).isin(['Low'])].droplevel(1, axis='columns')
+adx = ta.adx(db.df['AAPL']['High'], db.df['AAPL']['Low'], db.df['AAPL']['Close'])
+
+idx = []
+for symbol in symbols:
+    for col in adx.columns:
+        idx.append((symbol, col))
+#ts = time.time()
+#results = strategies.get_breakout_mod(db.df.copy())
+#symbols = results.columns.get_level_values(0).unique().sort_values(ascending=True)
+#te = time.time()
+#print(te-ts, 'seconds to run strategy')
 
 #xo = results.loc[:, results.columns.get_level_values(1).isin(['xo'])].droplevel(1, axis='columns')
 #xu = results.loc[:, results.columns.get_level_values(1).isin(['xu'])].droplevel(1, axis='columns')
@@ -24,6 +36,8 @@ print(te-ts, 'seconds to run strategy')
 #picks_xu = xu.loc[:,xu.tail(1).any()].tail(1).columns
 #for pick in picks_xo: print('xo', pick)
 #for pick in picks_xu: print('xu', pick)
+
+
 
 def run_backtest(db, results, days=1):
     now = datetime.now()
@@ -97,7 +111,7 @@ def find_todays_breakout(db, fn):
             })
     return picks
 
-ts = time.time()
-picks = find_todays_breakout(db.df.copy(), strategies.get_breakout_mod)
-te = time.time()
-print(te-ts, 'seconds to find breakout')
+#ts = time.time()
+#picks = find_todays_breakout(db.df.copy(), strategies.get_breakout_mod)
+#te = time.time()
+#print(te-ts, 'seconds to find breakout')
