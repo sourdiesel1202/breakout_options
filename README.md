@@ -103,6 +103,24 @@ Any other time than the first run, only incremental data is downloaded when the 
 
 - If a company is within a day or two of earnings or an ex-dividend date, it may be best to not enter a trade. Volatility can easily kill profits.
 
+- If the price has recently increased or decreased significantly, compared to normal, due to news, the trend will likely undergo significant reversal.
+
+- If another company in the same sector as a pick, e.g. Consumer Cyclical, has had or will have a major news event, it may cause the pick to sympathetically follow trend.
+
+- Theta Decay, also known as "rent", decreases the profitability of a trade as the option contract nears its expiration. Profitability decreases faster each day.
+
+- Buying expirations too close to expiration will tend to be more volatile and, therefore, more risky. Increased risk increases profitability. Increased risk also increases probability of loss.
+
+- Check Daily chart to visually inspect trend, then check Hourly chart to pick an optimal time to purchase. The best strategy is "buy low, sell high".
+
+- An hour after markets open and an hour before markets close will have an increase in volume and possibly volatility. It may be best to wait until volume settles for the day to make a trade.
+
+- Predicting market direction will more than likely end in failure. Following the direction the market is already trending will more than likely end in success.
+
+- If trading causes an emotional reaction, it may be best to not trade. If a trade causes stress or loss of sleep, it is extremely advised to sell.
+
+- Familiarize with trading rules, such as Day Trade Violations, Good Faith Violations, and other other industry regulations. https://www.finra.org/rules-guidance/rulebooks
+
 # Disclaimer
 
 - All investments involve risk, and the past performance of a security, industry, sector, market, financial product, trading strategy, or individual’s trading does not guarantee future results or returns. Investors are fully responsible for any investment decisions they make. Such decisions should be based solely on an evaluation of their financial circumstances, investment objectives, risk tolerance, and liquidity needs.
