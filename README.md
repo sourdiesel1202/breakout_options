@@ -70,14 +70,20 @@ In the project directory, type :
 
 ```
 podman build -t breakout_options Dockerfile
+# For Windows
 podman run -d -v %CD%:/usr/src/app -p 0.0.0.0:5000:5000 --name=app breakout_options
+# For Mac or Linux
+podman run -d -v ${PWD}:/usr/src/app -p 0.0.0.0:5000:5000 --name=app breakout_options
 ```
 
 or
 
 ```
 docker build -t breakout_options Dockerfile
+# For Windows
 docker run -d -v %CD%:/usr/src/app -p 0.0.0.0:5000:5000 --name=app breakout_options
+# For Mac or Linux
+docker run -d -v ${PWD}:/usr/src/app -p 0.0.0.0:5000:5000 --name=app breakout_options
 ```
 Then point your browser to http://localhost:5000!
 
