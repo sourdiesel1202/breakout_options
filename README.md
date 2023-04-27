@@ -69,7 +69,7 @@ https://docs.docker.com/get-docker/
 In the project directory, type :
 
 ```
-podman build -t breakout_options Dockerfile
+podman build -t breakout_options .
 # For Windows
 podman run -d -v %CD%:/usr/src/app -p 0.0.0.0:5000:5000 --name=app breakout_options
 # For Mac or Linux
@@ -79,7 +79,7 @@ podman run -d -v ${PWD}:/usr/src/app -p 0.0.0.0:5000:5000 --name=app breakout_op
 or
 
 ```
-docker build -t breakout_options Dockerfile
+docker build -t breakout_options .
 # For Windows
 docker run -d -v %CD%:/usr/src/app -p 0.0.0.0:5000:5000 --name=app breakout_options
 # For Mac or Linux
@@ -94,6 +94,14 @@ On the first time running the script, a full stock market history is downloaded,
 This first run may take about and hour to run, but is crucial for producing accurate backtesting data.
 
 Any other time than the first run, only incremental data is downloaded when the Refresh button is clicked.
+
+## Tips
+
+- Greed may set in! If you are making a stable profit, it may be time to sell. Slow and steady wins the race.
+
+- Similar to greed, if you are not making profit off a trade, it may be time to sell. A loss is only a small setback, tomorrow will be better day.
+
+- If a company is within a day or two of earnings or an ex-dividend date, it may be best to not enter a trade. Volatility can easily kill profits.
 
 # Disclaimer
 
