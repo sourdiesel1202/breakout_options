@@ -34,6 +34,14 @@ If a symbol closes from a Breakout trend the next day, the chance of a reversal 
 
 This modified Breakout trend will indicate that a stock has a high probability of continuing to climb for the next few days.
 
+### ADX Cross
+
+When a trend is confirmed in a direction, investors will more than likely make trades according to the trend.
+
+This algorithm catches the trend a day or two before, in an attempt to ride the trend of a stock for a longer period of time.
+
+Entry and exit prices are only calculated for overnight holds, although the trend may continue for longer.
+
 ### Golden/Death Cross
 
 Golden Cross - 50 day average crosses above 200 day average
