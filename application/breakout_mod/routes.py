@@ -4,7 +4,7 @@ from flask import render_template
 #from flask import request
 from flask import Blueprint
 #from application.app import framework
-from application.app import db
+from application.app import database
 from application.app import toolbox
 from application.app import strategies
 
@@ -20,8 +20,18 @@ bp_breakout_mod = Blueprint(
 
 #@bp_{page}
 #def {page}():
+@bp_breakout_mod.route(f'/strategy/loading_{page}')
+def loading_breakout_mod():
+    return render_template(
+        f'loading_{page}.html',
+    )
+
+#@bp_{page}
+#def {page}():
 @bp_breakout_mod.route(f'/strategy/{page}')
 def breakout_mod():
+    db = database.Database()
+    db.load_data()
     picks = toolbox.find_todays_breakout(
         db.df.copy(),
         strategies.get_breakout_mod,

@@ -23,7 +23,12 @@ class Database:
         self.df = pd.DataFrame()
         self.last_pull = 0.0
         self.last_pull_pretty = 'n/a'
-        self.load_data()
+        self.file_exists = False
+        try:
+            open(self.full_path)
+            self.file_exists = True
+        except:
+            pass
         return
     
     def get_symbols_list(self):

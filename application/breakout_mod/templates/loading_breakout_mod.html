@@ -1,0 +1,25 @@
+{% extends 'template.j2' %}
+{% block head %}
+<style>
+#main {
+	background-color: #FFFFFF;
+	border-radius: 10px;
+}
+</style>
+{% endblock %}
+{% block body %}
+<div id='main' class='container bg-light'>
+	<h1 class='text-center'>Breakout (Longer Term)</h1>
+    <div class='text-center'>
+        <div class='spinner-border text-primary'></div><h3>Loading ...</h3>
+    </div>
+    <p class='text-center'>Loading Strategy, may take 10-15 seconds.</p>
+</div>
+
+<script>
+
+window.location.replace('/strategy/breakout_mod');
+
+</script>
+
+{% endblock %}

@@ -4,7 +4,7 @@ from flask import render_template
 #from flask import request
 from flask import Blueprint
 #from application.app import framework
-from application.app import db
+from application.app import database
 from application.app import toolbox
 from application.app import strategies
 
@@ -20,8 +20,18 @@ bp_golden_cross = Blueprint(
 
 #@bp_{page}
 #def {page}():
+@bp_golden_cross.route(f'/strategy/loading_{page}')
+def loading_golden_cross():
+    return render_template(
+        f'loading_{page}.html',
+    )
+
+#@bp_{page}
+#def {page}():
 @bp_golden_cross.route(f'/strategy/{page}')
 def golden_cross():
+    db = database.Database()
+    db.load_data()
     picks = toolbox.find_todays_breakout(
         db.df.copy(),
         strategies.get_golden_cross,

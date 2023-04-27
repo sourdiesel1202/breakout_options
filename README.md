@@ -48,7 +48,22 @@ Entry and exit prices are only calculated for overnight holds, although the tren
 
 ## Getting Started
 
+### Install Podman or Docker
+
+https://podman.io/getting-started/installation.html
+
+or
+
+https://docs.docker.com/get-docker/
+
 ### When using as a Docker (or Podman) application :
+```
+podman build -t breakout_options .
+podman run -d -v %CD%:/usr/src/app -p 0.0.0.0:5000:5000 --name=app breakout_options
+```
+
+or
+
 ```
 docker build -t breakout_options .
 docker run -d -v %CD%:/usr/src/app -p 0.0.0.0:5000:5000 --name=app breakout_options

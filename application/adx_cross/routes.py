@@ -4,7 +4,7 @@ from flask import render_template
 #from flask import request
 from flask import Blueprint
 #from application.app import framework
-from application.app import db
+from application.app import database
 from application.app import toolbox
 from application.app import strategies
 
@@ -20,9 +20,23 @@ bp_adx_cross = Blueprint(
 
 #@bp_{page}
 #def {page}():
+@bp_adx_cross.route(f'/strategy/loading_{page}')
+def loading_adx_cross():
+    return render_template(
+        f'loading_{page}.html',
+    )
+
+#@bp_{page}
+#def {page}():
 @bp_adx_cross.route(f'/strategy/{page}')
 def adx_cross():
-    picks = toolbox.find_breakout(strategies.get_adx_cross, db.df)
+    db = database.Database()
+    db.load_data()
+    picks = toolbox.find_todays_breakout(
+        db.df.copy(),
+        strategies.get_adx_cross,
+        days=1,
+    )
     return render_template(
         f'{page}.html',
         db=db,

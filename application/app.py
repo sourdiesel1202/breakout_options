@@ -5,7 +5,7 @@ from flask import Flask
 from application.frameworks import strategies
 from application.frameworks import database
 from application.frameworks import toolbox
-db = database.Database()
+#db = database.Database()
 
 def init_app():
     app = Flask(__name__, instance_relative_config=False)

@@ -3,7 +3,7 @@ print(__name__)
 from flask import Blueprint
 from flask import request
 #from application.app import framework
-from application.app import db
+from application.app import database
 from application.app import strategies
 from application.app import toolbox
 
@@ -23,6 +23,7 @@ bp_api = Blueprint(
 #def {page}():
 @bp_api.route(f'/{page}/update')
 def api_update():
+    db = database.Database()
     db.update_historic_data()
     inventory = [getattr(strategies, x) for x in strategies.inventory]
     return json.dumps({'success': True})

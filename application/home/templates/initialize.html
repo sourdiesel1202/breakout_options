@@ -1,0 +1,27 @@
+{% extends 'template.j2' %}
+{% block head %}
+<style>
+#main {
+	background-color: #FFFFFF;
+	border-radius: 10px;
+}
+</style>
+{% endblock %}
+{% block body %}
+<div id='main' class='container bg-light'>
+	<h1 class='text-center'>Database Initialization</h1>
+    <div class='text-center'>
+        <div class='spinner-border text-primary'></div><h3>Loading ...</h3>
+    </div>
+	<p class='text-center'>This may take up to 45 minutes, please be patient.</p>
+    <p class='text-center'>The page will refresh when download is complete.</p>
+    
+</div>
+
+<script>
+
+window.location.replace('/home');
+
+</script>
+
+{% endblock %}
