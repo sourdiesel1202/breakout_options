@@ -56,6 +56,8 @@ Entry and exit prices are only calculated for overnight holds, although the tren
 
 ## Getting Started
 
+Runs with optimal performance on systems with more than 8GB of RAM.
+
 ### Install Podman or Docker
 
 https://podman.io/getting-started/installation.html
