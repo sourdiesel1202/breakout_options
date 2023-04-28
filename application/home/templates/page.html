@@ -20,33 +20,6 @@
     <br>
 </div>
 
-<script>
-
-function test() {
-    alert('test');
-}
-
-function get_last_pull() {  
-    let options = {
-        method: 'GET',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-    };
-    var btn = document.getElementById('refresh');
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Loading...';
-    btn.disabled = true;
-    
-    fetch("/api/update", options)
-    .then((response) => response.json())
-    .then(data => {
-        var jd = JSON.stringify(data);
-        console.log(jd);
-        window.location.reload();
-    }).catch((error) => {
-        console.log(error);
-    })
-    return;
-}
-
-</script>
+<script src="{{ url_for('bp_home.static', filename='functions.js') }}"></script>
 
 {% endblock %}
