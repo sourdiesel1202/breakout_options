@@ -11,12 +11,13 @@
 <div id='main' class='container bg-light'>
 	<h1 class='text-center'>Stock Market Algorithms</h1>
 	<p class='text-center'>Updated as of : <b>{{ db.last_pull_pretty }}</b><br><button id='refresh' class='btn btn-primary' onclick='javascript:get_last_pull()'>Refresh</button></p>
-    <ul class='list-group'>
-        <li class='list-group-item text-center'><a href='strategy/loading_breakout' target='_blank'>Breakout</a></li>
-        <li class='list-group-item text-center'><a href='strategy/loading_breakout_mod' target='_blank'>Breakout (Longer Term)</a></li>
-        <li class='list-group-item text-center'><a href='strategy/loading_adx_cross' target='_blank'>ADX Cross</a></li>
-        <li class='list-group-item text-center'><a href='strategy/loading_golden_cross' target='_blank'>Golden Cross</a></li>
-    </ul>
+    <form method='get'>
+    <div class='d-grid gap-3'>
+    {% for strategy_dir, strategy_name in strategies %}
+        <button type='submit' formaction='loading' target='_blank' class='btn btn-primary' id='{{ strategy_dir }}' name='strategy' value='{{ strategy_dir }}'>{{ strategy_name }}</button>
+    {% endfor %}
+    </div>
+    </form>
     <br>
 </div>
 

@@ -1,6 +1,4 @@
-import os
-import csv
-
+print(__name__)
 import yfinance as yf
 import pandas as pd
 import pandas_ta as ta
@@ -188,21 +186,4 @@ def get_pricing(symbol, pick_type, gain):
     return output
 
 if __name__ == '__main__':
-    print('-- TOOLBOX --')
-    from algorithms import get_breakout as fn
-    data = load_historic()
-    #picks = find_todays_breakout(fn, grab_new=False)
-    #backtest_dict = run_backtest(fn, symbols=picks)
-
-'''
-//no chain
-<5 expirations
-price <15
-call volume < 250
-put volume < 250
-//if call chain == 0
-//if put chain == 0
-
-optional:
-	bid-ask spread < 0.20
-'''
+    ...

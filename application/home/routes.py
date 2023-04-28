@@ -5,6 +5,7 @@ from flask import render_template
 from flask import Blueprint
 #from application.app import framework
 from application.app import database
+from application.app import strategies
 
 page = 'home'
 # bp_{page}
@@ -38,6 +39,7 @@ def initialize():
         return render_template(
             'page.html',
             db=db,
+            strategies=strategies.inventory,
         )
     else:
         return render_template(

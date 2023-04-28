@@ -13,17 +13,11 @@ def init_app():
     
     with app.app_context():
         from .home import routes as home
-        from .golden_cross import routes as golden_cross
-        from .adx_cross import routes as adx_cross
-        from .breakout import routes as breakout
-        from .breakout_mod import routes as breakout_mod
         from .api import routes as api
+        from .strategy import routes as strategy
         
         app.register_blueprint(home.bp_home)
-        app.register_blueprint(golden_cross.bp_golden_cross)
-        app.register_blueprint(adx_cross.bp_adx_cross)
-        app.register_blueprint(breakout.bp_breakout)
-        app.register_blueprint(breakout_mod.bp_breakout_mod)
         app.register_blueprint(api.bp_api)
+        app.register_blueprint(strategy.bp_strategy)
         
     return app

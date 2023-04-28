@@ -1,3 +1,4 @@
+print(__name__)
 import os
 import json
 import datetime
