@@ -8,6 +8,8 @@ import requests
 import pandas as pd
 import yfinance as yf
 #import pandas_ta as ta
+import pandas_datareader as pdr
+yf.pdr_override()
 
 from bs4 import BeautifulSoup as bs
 

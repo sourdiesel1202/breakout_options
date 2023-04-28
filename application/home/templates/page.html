@@ -11,10 +11,10 @@
 <div id='main' class='container bg-light'>
 	<h1 class='text-center'>Stock Market Algorithms</h1>
 	<p class='text-center'>Updated as of : <b>{{ db.last_pull_pretty }}</b><br><button id='refresh' class='btn btn-primary' onclick='javascript:get_last_pull()'>Refresh</button></p>
-    <form method='get'>
+    <form method='get' target='_blank'>
     <div class='d-grid gap-3'>
     {% for strategy_dir, strategy_name in strategies %}
-        <button type='submit' formaction='loading' target='_blank' class='btn btn-primary' id='{{ strategy_dir }}' name='strategy' value='{{ strategy_dir }}'>{{ strategy_name }}</button>
+        <button type='submit' formaction='loading' class='btn btn-outline-primary' id='{{ strategy_dir }}' name='strategy' value='{{ strategy_dir }}'>{{ strategy_name }}</button>
     {% endfor %}
     </div>
     </form>
