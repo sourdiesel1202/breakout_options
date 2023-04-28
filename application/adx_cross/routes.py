@@ -9,6 +9,8 @@ from application.app import toolbox
 from application.app import strategies
 
 page = 'adx_cross'
+page_name = 'ADX Cross'
+page_url = f'/strategy/{page}'
 # bp_{page}
 bp_adx_cross = Blueprint(
     f'bp_{page}',
@@ -24,6 +26,8 @@ bp_adx_cross = Blueprint(
 def loading_adx_cross():
     return render_template(
         f'loading_{page}.html',
+        strategy_name=page_name,
+        strategy_url=page_url,
     )
 
 #@bp_{page}
@@ -41,4 +45,5 @@ def adx_cross():
         f'{page}.html',
         db=db,
         picks=picks,
+        strategy_name=page_name,
     )

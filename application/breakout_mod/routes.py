@@ -9,6 +9,8 @@ from application.app import toolbox
 from application.app import strategies
 
 page = 'breakout_mod'
+page_name = 'Breakout (Longer Term)'
+page_url = f'/strategy/{page}'
 # bp_{page}
 bp_breakout_mod = Blueprint(
     f'bp_{page}',
@@ -24,6 +26,8 @@ bp_breakout_mod = Blueprint(
 def loading_breakout_mod():
     return render_template(
         f'loading_{page}.html',
+        strategy_name=page_name,
+        strategy_url=page_url,
     )
 
 #@bp_{page}
@@ -41,4 +45,5 @@ def breakout_mod():
         f'{page}.html',
         db=db,
         picks=picks,
+        strategy_name=page_name,
     )

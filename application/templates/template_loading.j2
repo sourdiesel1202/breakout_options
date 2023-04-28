@@ -1,0 +1,25 @@
+{% extends 'template.j2' %}
+{% block head %}
+<style>
+#main {
+	background-color: #FFFFFF;
+	border-radius: 10px;
+}
+</style>
+{% endblock %}
+{% block body %}
+<div id='main' class='container bg-light'>
+	<h1 class='text-center'>{% block strategy %}_Strategy_{% endblock %}</h1>
+    <div class='text-center'>
+        <div class='spinner-border text-primary'></div><h3>Loading ...</h3>
+    </div>
+    <p class='text-center'>Loading Strategy, may take 10-15 seconds.</p>
+</div>
+
+<script>
+
+window.location.replace("{% block strategy_url %}'/srategy/_strategy_'{% endblock %}");
+
+</script>
+
+{% endblock %}
