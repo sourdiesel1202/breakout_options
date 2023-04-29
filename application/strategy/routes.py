@@ -43,14 +43,15 @@ def loading_strategy_page():
 @bp_strategy.route(f'/strategy/<strategy>')
 def strategy_page(strategy):
     db = database.Database()
-    db.load_data()
+    df = db.load_data()
     strategy_module = importlib.import_module(f'strategy_files.{strategy}')
     strategy_fn = getattr(strategy_module, strategy)
     picks = toolbox.find_todays_breakout(
-        db.df.copy(),
+        df,
         strategy_fn,
         days=strategy_module.days_to_backtest,
     )
+    
     return render_template(
         f'strategy.html',
         db=db,

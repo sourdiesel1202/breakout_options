@@ -8,8 +8,6 @@ import requests
 import pandas as pd
 import yfinance as yf
 #import pandas_ta as ta
-import pandas_datareader as pdr
-yf.pdr_override()
 
 from bs4 import BeautifulSoup as bs
 
@@ -30,6 +28,9 @@ class Database:
         try:
             open(self.full_path)
             self.file_exists = True
+            self.last_pull = os.path.getmtime(self.full_path)
+            last_pull_dt = datetime.datetime.fromtimestamp(self.last_pull)
+            self.last_pull_pretty = last_pull_dt.strftime(f'(%a) %B %d, %Y @ %H:%M:%S')
         except:
             pass
         return
@@ -82,11 +83,8 @@ class Database:
             open(self.full_path)
         except:
             self.get_historic_data()
-        self.df = pd.read_hdf(self.full_path)
-        self.last_pull = os.path.getmtime(self.full_path)
-        last_pull_dt = datetime.datetime.fromtimestamp(self.last_pull)
-        self.last_pull_pretty = last_pull_dt.strftime(f'(%a) %B %d, %Y @ %H:%M:%S')
-        return
+        df = pd.read_hdf(self.full_path)
+        return df
     
     def update_historic_data(self):
         now = datetime.datetime.now()
@@ -94,8 +92,7 @@ class Database:
         days = (now - last_pull_dt).days
         if days >= 50:
             self.get_historic_data()
-            self.load_data()
-            return
+            return self.load_data()
         symbols = self.get_symbols_list()
         symbols_yf = ' '.join(symbols)
         # today - today == -1
@@ -108,23 +105,29 @@ class Database:
             group_by='ticker',
             threads=True,
         )
-        duplicates = df.index.intersection(self.df.index)
+        historic = self.load_data()
+        duplicates = df.index.intersection(historic.index)
         for date in duplicates:
-            if self.df.loc[date].sort_index().equals(df.loc[date].sort_index()):
+            if historic.loc[date].sort_index().equals(df.loc[date].sort_index()):
                 duplicates = duplicates.drop(date)
                 df.drop(date, inplace=True)
             else:
                 # volume changes after hours
                 print(f'outdated entry for {date} in historic')
-                self.df = self.df.drop(date)
+                historic = historic.drop(date)
         if len(df) > 0:
             print(f'adding {len(df)} entries')
             #historic.drop(duplicates, inplace=True)
-            both = pd.concat([self.df, df])
+            both = pd.concat([historic, df])
             both.sort_index(inplace=True)
+            os.rename(self.full_path, self.full_path + '.bak')
             both.to_hdf(self.full_path, key='data')
-            self.load_data()
+            self.last_pull = os.path.getmtime(self.full_path)
+            last_pull_dt = datetime.datetime.fromtimestamp(self.last_pull)
+            self.last_pull_pretty = last_pull_dt.strftime(f'(%a) %B %d, %Y @ %H:%M:%S')
             return
+        else:
+            print('nothing to add')
         return
     
     def _(self):

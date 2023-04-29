@@ -4,7 +4,6 @@ from flask import Blueprint
 from flask import request
 #from application.app import framework
 from application.app import database
-from application.app import strategies
 from application.app import toolbox
 
 import json
@@ -25,7 +24,6 @@ bp_api = Blueprint(
 def api_update():
     db = database.Database()
     db.update_historic_data()
-    inventory = [getattr(strategies, x) for x in strategies.inventory]
     return json.dumps({'success': True})
 
 #@bp_{page}

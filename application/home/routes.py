@@ -22,7 +22,7 @@ bp_home = Blueprint(
 @bp_home.route('/home')
 def home():
     db = database.Database()
-    db.load_data()
+    db.update_historic_data()
     return render_template(
         'page.html',
         db=db,
@@ -35,7 +35,6 @@ def home():
 def initialize():
     db = database.Database()
     if db.file_exists:
-        db.load_data()
         return render_template(
             'page.html',
             db=db,
