@@ -14,12 +14,21 @@ from application.app import database
 
 ts = time.time()
 db = database.Database()
-df = db.load_data()
+#df = db.load_data()
 te = time.time()
 print(te-ts, 'seconds to load db')
 
 # errors
 #df = yf.download('AAPL', period='max', interval='1d', group_by='ticker', threads=True)
+symbols = db.get_symbols_list()
+symbols_yf = ' '.join(symbols)
+df = yf.download(
+    symbols_yf,
+    period='100y',
+    interval='1d',
+    group_by='ticker',
+    threads=False,
+)
 
 '''
 strategy = 'breakout'

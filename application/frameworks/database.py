@@ -70,7 +70,7 @@ class Database:
         symbols_yf = ' '.join(symbols)
         df = yf.download(
             symbols_yf,
-            period='max',
+            period='100y',
             interval='1d',
             group_by='ticker',
             threads=True,
@@ -120,6 +120,7 @@ class Database:
             #historic.drop(duplicates, inplace=True)
             both = pd.concat([historic, df])
             both.sort_index(inplace=True)
+            os.remove(self.full_path + '.bak')
             os.rename(self.full_path, self.full_path + '.bak')
             both.to_hdf(self.full_path, key='data')
             self.last_pull = os.path.getmtime(self.full_path)
