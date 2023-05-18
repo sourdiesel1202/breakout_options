@@ -100,7 +100,8 @@ class Database:
         # for worst case scenario
         df = yf.download(
             symbols_yf,
-            period=f'{days+2}d',
+            #period=f'{days+2}d',
+            period='5d',
             interval='1d',
             group_by='ticker',
             threads=True,
@@ -120,7 +121,10 @@ class Database:
             #historic.drop(duplicates, inplace=True)
             both = pd.concat([historic, df])
             both.sort_index(inplace=True)
-            os.remove(self.full_path + '.bak')
+            try:
+                os.remove(self.full_path + '.bak')
+            except:
+                pass
             os.rename(self.full_path, self.full_path + '.bak')
             both.to_hdf(self.full_path, key='data')
             self.last_pull = os.path.getmtime(self.full_path)

@@ -130,6 +130,8 @@ def get_pricing(symbol, pick_type, gain):
             'gain_percent': 'n/a',
             'buy_price': 'n/a',
             'sell_price': 'n/a',
+            'unit_price': 'n/a',
+            'oi': 'n/a',
             'bid': 'n/a',
             'ask': 'n/a',
             'bid-ask': 'n/a',
@@ -154,6 +156,10 @@ def get_pricing(symbol, pick_type, gain):
             nearest_strike = c.calls[c.calls.strike == nearest]
         else:
             nearest_strike = c.puts[c.puts.strike == nearest]
+        oi = nearest_strike.openInterest.iloc[-1]
+        msg['oi'] = float(oi)
+        unit_price = float(nearest_strike.lastPrice.iloc[-1]) * 100
+        msg['unit_price'] = f'{unit_price:.2f}'
         # Skip wide bid-ask spread, by $0.10
         bid = nearest_strike.bid.iloc[-1]
         msg['bid'] = f'{bid:.2f}'
