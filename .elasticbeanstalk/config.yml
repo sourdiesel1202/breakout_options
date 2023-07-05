@@ -1,4 +1,6 @@
 branch-defaults:
+  elastic_beanstalk:
+    environment: breakout-options
   main:
     environment: breakout-options
 global:
